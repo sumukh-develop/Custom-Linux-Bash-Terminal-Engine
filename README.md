@@ -11,6 +11,7 @@ execution_engine.py
 session_manager.py
 Dockerfile
 docker-compose.yml
+frontend/
 gunicorn_conf.py
 uvicorn_worker.py
 nginx-terminal.conf
@@ -34,6 +35,12 @@ Production Docker runs Gunicorn with Uvicorn workers:
 
 ```bash
 docker compose up --build
+```
+
+The terminal UI is served at:
+
+```text
+http://localhost:4041
 ```
 
 The WebSocket client connects to:
@@ -230,6 +237,24 @@ Server submit response:
 
 ```json
 { "type": "response", "data": { "output": "user@server:~$ pwd", "prompt": "user@server:~$ " } }
+```
+
+## Frontend
+
+The browser UI is a TypeScript terminal app in `frontend/`.
+
+To run it locally:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+If the frontend runs on Vite's default port, set the websocket URL to:
+
+```text
+ws://localhost:4041/terminal
 ```
 
 ## Evaluation

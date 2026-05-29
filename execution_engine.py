@@ -43,12 +43,17 @@ class CommandExecutionEngine:
         self.command_map: dict[str, CommandHandler] = {
             "pwd": self._pwd,
             "ls": self._ls,
+            "dir": self._ls,
             "cd": self._cd,
             "mkdir": self._mkdir,
+            "md": self._mkdir,
             "touch": self._touch,
             "rm": self._rm,
+            "del": self._rm,
+            "rd": self._rm,
             "echo": self._echo,
             "cat": self._cat,
+            "type": self._cat,
             "grep": self._grep,
             "wc": self._wc,
             "head": self._head,
@@ -66,9 +71,12 @@ class CommandExecutionEngine:
             "ping": self._ping,
             "mode": self._mode,
             "cp": self._cp,
+            "copy": self._cp,
             "mv": self._mv,
+            "move": self._mv,
             "nano": self._nano,
             "sudo": self._sudo,
+            "cls": self._cls,
         }
 
     def execute(self, session: TerminalSession, raw_command: str) -> dict[str, Any]:
@@ -636,6 +644,9 @@ class CommandExecutionEngine:
             return result
         except CommandError as exc:
             return self._result("", f"sudo: {exc}", exc.exit_code)
+
+    def _cls(self, session: TerminalSession, args: list[str], input_data: str | None) -> dict[str, Any]:
+        return self._result("", "", 0)
 
     def _input_or_file(
         self,
